@@ -4,18 +4,20 @@
 
 main :-
     statistics(cputime,T1),
-   campeonatoboliche(L1),
-    mostralista(L1),
+     campeonatoboliche(L1),
+     mostralista(L1),
 
     statistics(cputime, T2),
     Tempo_BUSCA is (T2 - T1),
     format('\n T1: ~f \t T2: ~f  msec', [T1, T2]),
-    format('\n Tempo total: ~10f  msec', Tempo_BUSCA).
+    format('\n Tempo total: ~10f  msec', Tempo_BUSCA),
+    false.
+main :- format('\n NAO HAH MAIS RESPOSTAS').
 
 mostralista([]).
 mostralista([H|T]) :-
-	write(H), nl,
-	mostralista(T).
+		write(H), nl,
+		mostralista(T).
 
 
 
@@ -32,10 +34,11 @@ campeonatoboliche([ (U1,E1,C1,S1,I1,P1),
     uniforme(U4),
     uniforme(U5),
 
-    todosdiferentes([U1,U2,U3,U4,U5]),
+    tudodiferente([U1,U2,U3,U4,U5]),
 
-%¨regra envolvendo uniforme, sao todos diferentes.
+%regra envolvendo uniforme, sao todos diferentes.
 %As equipes verde e azul estão lado a lado.
+
 
 (
 (U1 == verde , U2 == azul);
@@ -44,6 +47,7 @@ campeonatoboliche([ (U1,E1,C1,S1,I1,P1),
 (U4 == verde, (U3 == azul; U5 == azul));
 (U5 == verde, U4 == azul)
 ),
+
 
 %
 
@@ -68,11 +72,14 @@ tudodiferente([I1,I2,I3,I4,I5]),
 
     I3 == 25,
     
+  %A equipe Vermelha está em algum lugar entre a equipe doh capitão mais velho e a equipe com mais Strikes, nessa ordem.
+   
 (
-(U2 == vermelho,I1 == 27,S3 == 4);
-(U3 == vermelho,I2 == 27,S4 == 4);
-(U4 == vermelho,I3 == 27,S5 == 4)
+(U2 == vermelho,I1 == 27,S3 == 4)
+(U3 == vermelho,I2 == 27,S4 == 4)
 ),
+
+
 
 %%% A equipe com 390 pontos está exatamente à esquerda da equipe Azul.
 
@@ -85,7 +92,11 @@ tudodiferente([I1,I2,I3,I4,I5]),
       pontos(P5),
       
 		tudodiferente([P1,P2,P3,P4,P5]),
-		
+	 % Na segunda posição está a equipe com 410 pontos.
+      
+      P2 == 410,	
+      
+      
 		    %A equipe com 4 strikes está exatamente à esquerda da que tem 380 pontos
 
     (
@@ -111,15 +122,28 @@ capitao(C3),
 capitao(C4),
 capitao(C5),
 
+% A equipe de carlos está na quinta posição.
+C5 == carlos,
 tudodiferente([C1,C2,C3,C4,C5]),
 
-(
+ % Oscar está na equipe de 400 pontos.
+
+
+      ((C1 == oscar, P1 == 400);
+      (C2 ==  oscar, P2 == 400);
+      (C3 ==  oscar, P3 == 400);
+      (C4 ==  oscar, P4 == 400);
+      (C5 ==  oscar, P5 == 400)),
+
+
+/*(
 (U1 == vermelho,C1 == 23);
 (U2 == vermelho,C2 == 23);
 (U3 == vermelho,C3 == 23);
 (U4 == vermelho,C4 == 23);
 (U5 == vermelho,C5 == 23)
 ),
+*/
 
 %A equipe de Branco está exatamente à esquerda da equipe de Verde.
 
@@ -143,13 +167,14 @@ tudodiferente([E1,E2,E3,E4,E5]),
 %
 % A equipe Fenix está ao lado da equipe que fez 3 strikes.
 
-    (
+   /* (
     (E1 == fenix, S2 == 3);
     (E2 == fenix, (S3 == 3; S1 == 3));
     (E3 == fenix,(S4 == 3; S2 == 3));
     (E4 == fenix, (S5 == 3;S3 == 3));
     (E5 == fenix,(S4 == 3))
     ),
+    */
 
 %Os Peraltas ainda não fizeram Strike.
 
@@ -173,13 +198,14 @@ tudodiferente([E1,E2,E3,E4,E5]),
 
 %Os Tratores estão ao lado da equipe que fez 2 strikes.
 
-    (
+   /* (
     (E1 == tratores, S2 == 2);
     (E2 == tratores,(S1 == 2; S3 == 2));
     (E3 == tratores,(S2 == 2; S4 == 2));
     (E4 == tratores, (S3 == 2; S5 == 2));
     (E5 == tratores, S5 == 2)
      ),
+     */
 
 % A equipe com 1 strike está a esquerda da 14 biz.
 
@@ -193,15 +219,7 @@ tudodiferente([E1,E2,E3,E4,E5]),
 
      
 
-      
 
-
- % Regras envolvendo capitão
-
-% A equipe de carlos está na quinta posição.
-
-
-      C5 == carlos,
 
 
 
@@ -212,14 +230,7 @@ tudodiferente([E1,E2,E3,E4,E5]),
  (C3 == oscar , C4 == juliano);
  (C4 ==  oscar , C5 == juliano)),
 
- % Oscar está na equipe de 400 pontos.
 
-
-      ((C1 == oscar, P1 == 400);
-      (C2 ==  oscar, P2 == 400);
-      (C3 ==  oscar, P3 == 400);
-      (C4 ==  oscar, P4 == 400);
-      (C5 ==  oscar, P5 == 400)),
 
  % Oscar está exatamente á direita da equipe que tem o capitao mais novo.
 
@@ -242,7 +253,7 @@ tudodiferente([E1,E2,E3,E4,E5]),
 
 
 
-       ((S1 ==  3, P2 == 390);
+       /*((S1 ==  3, P2 == 390);
        (S2 ==  3, P3 == 390);
        (S3 ==  3, P4 == 390);
        (S4 ==  3, P5 == 390)),
@@ -258,9 +269,7 @@ tudodiferente([E1,E2,E3,E4,E5]),
 
 
 
-       % Na segunda posição está a equipe com 410 pontos.
 
-       P2 == 410,
 
        %O capitão de 26 anos está na equipe que tem 390 ponto
 
@@ -270,7 +279,7 @@ tudodiferente([E1,E2,E3,E4,E5]),
        (I3 == 26, P3 == 390);
        (I4 == 26, P4 == 390);
        (I5 == 26, P5 == 390)
-       ),
+       ), */
        
        nl,
        writeln('.........................').
