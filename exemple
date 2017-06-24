@@ -1,0 +1,291 @@
+%Exercício 2 do trabalho final de LMA
+%Guilherme Roberto Utech  e Pará
+%2017/01
+
+%Regras:
+
+%
+% Camisa = C, Nome = N, Sobrenome = S, Idade
+% = I, Suco = SO, Carne = CE,
+
+
+main :-	
+
+    statistics(cputime,T1),
+     churrasco(L1),
+     mostralista(L1),
+
+    statistics(cputime, T2),
+    Tempo_BUSCA is (T2 - T1),
+    format('\n T1: ~f \t T2: ~f  msec', [T1, T2]),
+    format('\n Tempo total: ~10f  msec', Tempo_BUSCA),
+    false.
+main :- format('\n NAO HAH MAIS RESPOSTAS').
+
+mostralista([]).
+mostralista([H|T]) :-
+		write(H), nl,
+		mostralista(T).
+
+
+
+
+
+    churrasco([
+    (C1,N1,S1,I1,SO1,CE1),
+               (C2,N2,S2,I2,SO2,CE2),
+               (C3,N3,S3,I3,SO3,CE3),
+               (C4,N4,S4,I4,SO4,CE4),
+               (C5,N5,S5,I5,SO5,CE5)
+               ]) :-
+
+    camisa(C1),
+    camisa(C2),
+    camisa(C3),
+    camisa(C4),
+    camisa(C5),
+
+    tudodiferente([C1,C2,C3,C4,C5]),
+
+    (
+     (C5 == branca, (C1==verde;C2==verde;C3==verde;C4==verde));
+     (C4 == branca,(C1==verde;C2==verde;C3==verde));
+     (C3 == branca, (C1==verde;C2==verde));
+     (C2 == branca, (C1==verde))
+     ),
+
+
+
+
+
+
+    carne(CE1),
+    carne(CE2),
+    carne(CE3),
+    carne(CE4),
+    carne(CE5),
+
+    tudodiferente([CE1,CE2,CE3,CE4,CE5]),
+
+
+    (
+    (CE2 == cupim,CE1 == costela, CE3 == fraldinha);
+    (CE3 == cumpim,CE2 == costela, CE4 ==fraldinha);
+    (CE4== cumpim,CE3 == costela, CE5 == frandinha)
+    ),
+
+    (
+     (C2 == amarela,CE1 == costela, C3 == azul);
+     (C3 == amarela,CE2 == costela, C4 == azul);
+     (C4 == amarela,CE3 == costela, C5 == azul)
+     ),
+
+    ((CE1 = picanha; CE5 == picanha)),
+
+
+
+    suco(SO1),
+    suco(SO2),
+    suco(SO3),
+    suco(SO4),
+    suco(SO5),
+
+    tudodiferente([SO1,SO2,SO3,SO4,SO5]),
+    
+    SO3 == limao,
+
+
+    (
+    (CE1 == maminha , SO1 == limao);
+    (CE2 == maminha , SO2 == limao);
+    (CE3 == maminha , SO3 == limao);
+    (CE4 == maminha , SO4 == limao);
+    (CE5 == maminha , SO5 == limao)
+    ),
+
+
+    (
+     (SO2 == laranja,C1 == amarela, SO3 == maracuja);
+     (SO3 == laranja,C2 == amarela, SO4 == maracuja);
+     (SO4 == laranja,C3 == amarela, SO5 == maracula)
+     ),
+
+
+
+	(
+     (C2 == amarela,SO1 == morango, CE3 == picanha);
+     (C3 == amarela,SO2 == morango, CE4 == picanha);
+     (C4 == amarela,SO3 == morango, CE5 == picanha)
+     ),
+
+
+    (
+    (SO1 == morango);
+    (SO5 == morango)
+    ),
+
+    sobrenome(S1),
+    sobrenome(S2),
+    sobrenome(S3),
+    sobrenome(S4),
+    sobrenome(S5),
+
+    tudodiferente([S1,S2,S3,S4,S5]),
+
+    (
+    (S1 == lopes,S2 == teixeira);
+    (S2 == lopes,(S1 == teixeira; S3 == teixeira));
+    (S3 == lopes,(S2 == teixeira; S4 == teixeira));
+    (S4 == lopes,(S3 == lopes; S5 == lopes));
+    (S5 == lopes,S4 == teixeira)
+    ),
+
+    (
+    (S1 == assis,(SO2==laranja));
+     (S2 == assis,(SO1==laranja;SO3==laranja));
+     (S3 == assis,(SO2==laranja;SO4==laranja));
+     (S4 == assis,(SO3==laranja;SO5 == laranja));
+     (S5 == assis),(SO4 == laranja)
+     ),
+
+     (
+     (S2 == barros,SO1 == morango, CE3 == fraldinha);
+     (S3 == barros,SO2 == costela, CE4 == fraldinha);
+     (S4 == barros,SO3 == costela, CE5 == fraldinha)
+     ),
+
+
+     (
+     (C1 == amarela, (S2 == teixeira; s3 == teixeira; s4 == teixeira ; s5 == teixeira));
+     (C2 == amarela, (S3 == teixeira; s4 == teixeira; s5 == teixeira));
+     (C3 == amarela, (S4 == teixeira; s5 == teixeira));
+     (C4 == amarela, (S5 == teixeira))
+     );
+
+
+    nome(N1),
+    nome(N2),
+    nome(N3),
+    nome(N4),
+    nome(N5),
+
+    tudodiferente([N1,N2,N3,N4,N5]),
+
+    (
+    (N1 == ivo);
+    (N5 == ivo)
+    ),
+
+    (
+    (SO5 == laranja, (N1==lopes;N2==lopes;N3==lopes;N4==lopes));
+     (SO4 == laranja,(N1==lopes;N2==lopes;N3==lopes));
+     (SO3 == laranja, (N1==lopes;N2==lopes));
+     (SO2 == laranja, (N1==lopes))
+     ),
+
+     (
+     (C2 == amarela,S1 == pessoa, N3 == ivo);
+     (C3 == amarela,S2 == pessoa, N4 == ivo);
+     (C4 == amarela,S3 == pessoa, N5 == ivo)
+     ),
+
+     (
+     (C1 == azul, (N2==marcelo;N3==marcelo;N4==marcelo;N5==marcelo));
+     (C2 == azul,(N3==marcelo;N4==marcelo;N5==marcelo));
+     (C3 == azul, (N4==marcelo;N5==marcelo));
+     (C4 == azul, (N5==marcelo))
+     ),
+
+
+
+
+    idade(I1),
+    idade(I2),
+    idade(I3),
+    idade(I4),
+    idade(I5),
+
+    tudodiferente([I1,I2,I3,I4,I5]),
+
+    (
+    (N2 == bruno,I1 == 24, N3 == samuel);
+     (N3 == bruno,I2 == 24, N4 == samuel);
+     (N4 == bruno,I3 == 24, N5 == samuel)
+     ),
+
+    (
+    (I1 == 32 , C1 == vermelho);
+     (I2 == 32 , C2 == vermelho);
+     (I3 == 32 , C3 == vermelho);
+     (I4 == 32 , C4 == vermelho);
+     (I5 == 32 , C5 == vermelho)
+     ),
+      (
+     (C2 == amarela,S1 == pessoa, I3 == 22);
+     (C3 == amarela,S2 == pessoa, I4 == 22);
+     (C4 == amarela,S3 == pessoa, I5 == 22)
+     );
+     (
+    (I2 == 27,CE1 == costela, I3 == 32);
+    (I3 == 27,CE2 == costela, I4 ==32);
+    (I4== 27,CE3 == costela, I5 == 32)
+    ),
+
+	(
+    (CE1 == maminha , I1 == 32);
+    (CE2 == maminha , I2 == 32);
+    (CE3 == maminha , I3 == 32);
+    (CE4 == maminha , I4 == 32);
+    (CE5 == maminha , I5== 32)
+    ),
+
+     (
+    (I2 == 30,SO1 == uva, I3 == 32);
+     (I3 == 30,SO2 == uva, I4 == 32);
+     (I4 == 30,SO3 == uva, I5 == 32)
+     ),
+      nl,
+       writeln('.........................').
+       
+
+
+
+camisa(amarelo).
+camisa(azul).
+camisa(branca).
+camisa(verde).
+camisa(vermelho).
+
+nome(bruno).
+nome(ivo).
+nome(juliano).
+nome(marcelo).
+nome(samuel).
+
+sobrenome(assis).
+sobrenome(barros).
+sobrenome(lopes).
+sobrenome(pessoa).
+sobrenome(teixeira).
+
+idade(22).
+idade(24).
+idade(27).
+idade(30).
+idade(32).
+
+suco(laranja).
+suco(limao).
+suco(maracuja).
+suco(morango).
+suco(uva).
+
+carne(costela).
+carne(cupim).
+carne(fraldinha).
+carne(maminha).
+carne(picanha).
+   tudodiferente([]).
+tudodiferente([H|T]) :-
+	not(member(H,T)),
+	tudodiferente(T).
